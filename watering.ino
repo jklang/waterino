@@ -6,6 +6,7 @@ int old_moisture = 0;
 
 int sensor = 0; // Soil Sensor input at Analog PIN A0
 int moisture = 0;
+
 void setup() {
   // set up the LCD's number of columns and rows: 
   lcd.begin(16, 2);
@@ -14,12 +15,14 @@ void setup() {
 }
 
 int run_pump(int duration){
-    digitalWrite(pump_pin, HIGH);
-    delay(duration);
-    digitalWrite(pump_pin, LOW);
+  // run pump for duration in ms
+  digitalWrite(pump_pin, HIGH);
+  delay(duration);
+  digitalWrite(pump_pin, LOW);
 }
 
 int get_moisture_reading(){
+  // get reading from moisture sensor
   moisture = analogRead(sensor);
   moisture = moisture/10;
   return moisture;
