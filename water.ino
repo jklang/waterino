@@ -1,9 +1,10 @@
 #include <LiquidCrystal.h>
+
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
 int pump_pin = 10;
 int old_moisture = 0;
-
 int sensor = 0; // Soil Sensor input at Analog PIN A0
 int moisture = 0;
 
@@ -15,14 +16,15 @@ void setup() {
 }
 
 int run_pump(int duration){
-  // run pump for duration in ms
-  digitalWrite(pump_pin, HIGH);
-  delay(duration);
-  digitalWrite(pump_pin, LOW);
+    lcd.setCursor(0, 1);
+    lcd.print("Watering for 3 seconds!");
+    Serial.println("Watering for 3 seconds!");
+    digitalWrite(pump_pin, HIGH);
+    delay(duration);
+    digitalWrite(pump_pin, LOW);
 }
 
 int get_moisture_reading(){
-  // get reading from moisture sensor
   moisture = analogRead(sensor);
   moisture = moisture/10;
   return moisture;
@@ -37,12 +39,23 @@ void loop() {
     lcd.print("Moisture: ");
     lcd.print(moisture);
     old_moisture = moisture;
-  delay(500);
   }
-  if(moisture>40)
+  
+  delay(1000);
+  if (Serial.available() > 0) {
+    String serial_value = Serial.readString();
+    if (serial_value == "go") {
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Manual override!");
+      delay(5000);
+      Serial.println("Manual watering triggered!");
+      run_pump(3000);
+    }
+  }  
+
+  if(moisture>45)
   {
-    lcd.setCursor(0, 1);
-    lcd.print("Watering for 3 seconds!");
     run_pump(3000);
     lcd.setCursor(0, 1);
     lcd.print("                  ");
