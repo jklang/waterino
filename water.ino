@@ -16,12 +16,12 @@ void setup() {
 }
 
 int run_pump(int duration){
-    lcd.setCursor(0, 1);
-    lcd.print("Watering for 3 seconds!");
-    Serial.println("Watering for 3 seconds!");
-    digitalWrite(pump_pin, HIGH);
-    delay(duration);
-    digitalWrite(pump_pin, LOW);
+  lcd.setCursor(0, 1);
+  lcd.print("Watering for 3 seconds!");
+  Serial.println("Watering for 3 seconds!");
+  digitalWrite(pump_pin, HIGH);
+  delay(duration);
+  digitalWrite(pump_pin, LOW);
 }
 
 int get_moisture_reading(){
