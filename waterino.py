@@ -7,6 +7,21 @@ import requests
 import json
 import datetime
 
+class Plotly:
+    def __init__(self, config):
+        py.sign_in(config['plotly_username'], config['plotly_api_key'])
+        py.plot([
+            {
+                'x': [], 'y': [], 'type': 'scatter',
+                'stream': {
+                    'token': config['plotly_streaming_tokens'][0],
+                    'maxpoints': 20000
+                }
+            }], filename='Current soil moisture value')
+    def write_to_streaming_graph(self, config, datetime, moisture):
+        stream = py.Stream(config['plotly_streaming_tokens'][0])
+        stream.open()
+        stream.write({'x': datetime, 'y': moisture})
 
 def get_serial_output(ser):
     v = ser.readline()
@@ -34,23 +49,6 @@ def send_notification(config, message):
 def write_to_csv(filename, moisture):
     with open(filename, 'a') as datafile:
         datafile.write('{}, {}\n'.format(datetime.datetime.now(), moisture))
-        
-class Plotly:
-    def __init__(self, config):
-        py.sign_in(config['plotly_username'], config['plotly_api_key'])
-        py.plot([
-            {
-                'x': [], 'y': [], 'type': 'scatter',
-                'stream': {
-                    'token': config['plotly_streaming_tokens'][0],
-                    'maxpoints': 20000
-                }
-            }], filename='Current soil moisture value')
-    def write_to_streaming_graph(self, config, datetime, moisture):
-        stream = py.Stream(config['plotly_streaming_tokens'][0])
-        stream.open()
-        stream.write({'x': datetime, 'y': moisture})
-
         
 def main():
     moisture = 0
