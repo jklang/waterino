@@ -83,13 +83,9 @@ def main():
         write_to_csv(moisture_stats_file, moisture)
         write_to_csv(water_level_stats_file, water_level)
         print(moisture)
-#       Fix 404 error!
-        try:
-            p.write_to_streaming_graph(config, datetime.datetime.now(), moisture)
-            time.sleep(0.25)
-        except:
-            p = Plotly(config)
-        #    continue
+        p.write_to_streaming_graph(config, datetime.datetime.now(), moisture)
+        time.sleep(0.25)
+
 
 if __name__ == "__main__":
     main()
