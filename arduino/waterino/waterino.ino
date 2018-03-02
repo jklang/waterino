@@ -28,7 +28,7 @@ int run_pump(int duration){
 
 int get_moisture_reading(){
   moisture = analogRead(sensor);
-  moisture = moisture/10;
+  moisture = 104-moisture/10;
   return moisture;
 }
 
@@ -56,7 +56,7 @@ void loop() {
     }
    }  
 
-  if(moisture>45) {
+  if(moisture<40) {
     run_pump(3000);
     lcd.setCursor(0, 1);
     lcd.print("                  ");
