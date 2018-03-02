@@ -8,6 +8,7 @@ User=pi
 Group=pi
 WorkingDirectory=/home/pi
 ExecStart=/home/pi/waterino/waterino.py
+Restart=on-failure
 StandardOutput=syslog
 StandardError=syslog
 
