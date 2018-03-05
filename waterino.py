@@ -79,8 +79,10 @@ def main():
     #   if water_level <= 20:
     #        send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
         if 'Watering' in value:
+            annotation = value
             send_notification(config, value)
-    # Write graph data. Downsample to once every 30 iterations:
+    # Write graph data. Downsample sensor data to once every 30 iterations:
+        write_to_csv(annotations_file, annotation)
         if count == 30:
             write_to_csv(moisture_stats_file, moisture)
             write_to_csv(water_level_stats_file, water_level)
