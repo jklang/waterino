@@ -28,7 +28,7 @@ class Plotly:
 
 
 def get_serial_output(ser):
-    v = ser.readline()
+    v = ser.readline().decode()
     return v
 
 
