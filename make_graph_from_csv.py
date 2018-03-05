@@ -7,8 +7,8 @@ import plotly.figure_factory as FF
 import pandas as pd
 import plotly.graph_objs as go
 
-moisture_csv_file = '/Users/joakim/waterino/waterino/data/moisture.csv'
-water_level_csv_file = '/Users/joakim/waterino/waterino/data/water_level.csv'
+moisture_csv_file = './data/moisture.csv'
+water_level_csv_file = './data/water_level.csv'
 
 def update_graph(csv_file, title):
     headers = ['DateTime','Sensor']
