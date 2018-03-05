@@ -60,6 +60,7 @@ def write_to_csv(filename, moisture):
 def main():
     moisture = 0
     water_level = 0
+    annotation = ""
     count = 0
     config_file = './conf/config.json'
     with open(config_file) as conf:
@@ -70,6 +71,7 @@ def main():
     while True:
         moisture_stats_file = './data/moisture.csv'
         water_level_stats_file = './data/water_level.csv'
+        annotations_file = './data/annotations.csv'
         value = get_serial_output(ser).strip('\n').strip('\r')
         # Separate soil moisture (m) and water level(w) values into two vars:
         if 'm:' in value:
