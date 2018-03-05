@@ -80,8 +80,8 @@ def main():
     #        send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
         if 'Watering' in value:
             send_notification(config, value)
-    # Write graph data:
-        if count == 10:
+    # Write graph data. Downsample to once every 30 iterations:
+        if count == 30:
             write_to_csv(moisture_stats_file, moisture)
             write_to_csv(water_level_stats_file, water_level)
             print(moisture)
