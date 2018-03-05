@@ -60,11 +60,12 @@ def write_to_csv(filename, moisture):
 def main():
     moisture = 0
     water_level = 0
-    ser = serial.Serial('/dev/tty.wchusbserial1410', 9600)
-    config_file = '/Users/joakim/waterino/waterino/conf/config.json'
 
+    config_file = './conf/config.json'
     with open(config_file) as conf:
         config = json.load(conf)
+
+    ser = serial.Serial(config["serial_device_path"], 9600)
     p = Plotly(config)
     while True:
         moisture_stats_file = './data/moisture.csv'
@@ -77,13 +78,12 @@ def main():
             water_level = value.split(':')[1]
     #   if water_level <= 20:
     #        send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
-    #    if 'Watering' in value:
-    #        send_notification(config, value)
+        if 'Watering' in value:
+            send_notification(config, value)
     # Write graph data:
         write_to_csv(moisture_stats_file, moisture)
         write_to_csv(water_level_stats_file, water_level)
         print(moisture)
-        p.write_to_streaming_graph(config, datetime.datetime.now(), moisture)
         time.sleep(0.25)
 
 
