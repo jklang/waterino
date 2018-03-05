@@ -60,7 +60,7 @@ def write_to_csv(filename, moisture):
 def main():
     moisture = 0
     water_level = 0
-
+    count = 0
     config_file = './conf/config.json'
     with open(config_file) as conf:
         config = json.load(conf)
@@ -81,10 +81,12 @@ def main():
         if 'Watering' in value:
             send_notification(config, value)
     # Write graph data:
-        write_to_csv(moisture_stats_file, moisture)
-        write_to_csv(water_level_stats_file, water_level)
-        print(moisture)
-        time.sleep(0.25)
+        if count = 10:
+            write_to_csv(moisture_stats_file, moisture)
+            write_to_csv(water_level_stats_file, water_level)
+            print(moisture)
+            time.sleep(0.25)
+            count = 0
 
 
 if __name__ == "__main__":
