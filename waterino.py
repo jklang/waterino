@@ -81,7 +81,7 @@ def main():
         if 'Watering' in value:
             send_notification(config, value)
     # Write graph data:
-        if count = 10:
+        if count == 10:
             write_to_csv(moisture_stats_file, moisture)
             write_to_csv(water_level_stats_file, water_level)
             print(moisture)
