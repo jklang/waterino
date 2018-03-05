@@ -87,6 +87,7 @@ def main():
             print(moisture)
             time.sleep(0.25)
             count = 0
+        count += 1
 
 
 if __name__ == "__main__":
