@@ -1,5 +1,5 @@
 # waterino
-Plant watering system controlled by Arduino and Python
+Plant watering system controlled by Arduino and monitored using RPi and python
 
 ## Installation 
 ### Install Requirements:
