@@ -6,6 +6,8 @@ import requests
 import serial
 import time
 
+from influxdb import InfluxDBClient
+
 
 def get_serial_output(ser):
     v = ser.readline().decode()
@@ -37,6 +39,21 @@ def write_to_csv(filename, moisture):
         datafile.write('{}, {}\n'.format(datetime.datetime.now(), moisture))
 
 
+def write_to_db(client, measurement, value, host):
+    json_body = [
+        {
+            "tags": {
+                "host": host,
+            },
+            "measurement": measurement,
+            "fields": {
+                "Float_value": value,
+            }
+        }
+    ]
+    client.write_points(json_body)
+
+
 def main():
     moisture = 0
     water_level = 0
@@ -45,7 +62,10 @@ def main():
     config_file = './conf/config.json'
     with open(config_file) as conf:
         config = json.load(conf)
-
+    influx_host = 'localhost'
+    influx_port = '8086'
+    influx_dbname = 'db_grafana'
+    client = InfluxDBClient(host=influx_host, port=influx_port, database=influx_dbname)
     ser = serial.Serial(config["serial_device_path"], 9600)
 
     while True:
@@ -53,6 +73,7 @@ def main():
         water_level_stats_file = './data/water_level.csv'
         annotations_file = './data/annotations.csv'
         value = get_serial_output(ser).strip('\n').strip('\r')
+
         # Separate soil moisture (m) and water level(w) values into two vars:
         if 'm:' in value:
             moisture = value.split(':')[1]
@@ -64,7 +85,10 @@ def main():
             annotation = value
             write_to_csv(annotations_file, annotation)
             send_notification(config, value)
-    # Write graph data. Downsample sensor data to once every 30 iterations:
+        # Write graph data.
+        write_to_db(client, 'soilmoisture', moisture, 'pi')
+        write_to_db(client, 'waterlevel', waterlevel, 'pi')
+
         if count == 30:
             write_to_csv(moisture_stats_file, moisture)
             write_to_csv(water_level_stats_file, water_level)
