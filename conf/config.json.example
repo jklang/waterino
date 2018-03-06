@@ -1,5 +1,5 @@
 {
-"serial_device_path": "",
+"serial_device_path": "/dev/something",
 "plotly_streaming_tokens": [],
 "plotly_api_key": "",
 "plotly_username": "",
