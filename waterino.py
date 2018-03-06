@@ -76,9 +76,9 @@ def main():
 
         # Separate soil moisture (m) and water level(w) values into two vars:
         if 'm:' in value:
-            moisture = value.split(':')[1]
+            moisture = float(value.split(':')[1])
         if 'w:' in value:
-            water_level = value.split(':')[1]
+            water_level = float(value.split(':')[1])
     #   if water_level <= 20:
     #        send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
         if 'Watering' in value:
@@ -86,12 +86,9 @@ def main():
             write_to_csv(annotations_file, annotation)
             send_notification(config, value)
         # Write graph data.
-        write_to_db(client, 'soilmoisture', moisture, 'pi')
-        write_to_db(client, 'waterlevel', waterlevel, 'pi')
-
-        if count == 30:
-            write_to_csv(moisture_stats_file, moisture)
-            write_to_csv(water_level_stats_file, water_level)
+        if count == 10:
+            write_to_db(client, 'soilmoisture', moisture, 'pi')
+            write_to_db(client, 'waterlevel', water_level, 'pi')
             print(moisture)
             time.sleep(0.25)
             count = 0
