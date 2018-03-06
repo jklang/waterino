@@ -18,11 +18,10 @@ def update_graph(csv_file, annotations_csv_file, title):
         plotly_user_config = json.load(config_file)
         py.sign_in(plotly_user_config["plotly_username"], plotly_user_config["plotly_api_key"])
     trace1 = go.Scatter(x=df['DateTime'], y=df['Sensor'],
-        name='JoakimTest')
-    trace2 = go.Scatter(x = df_annotations['DateTime'], y = 50,
-        name='JoakimTest', mode='markers+text', text=['Watering!'],
-    textposition='bottom')
-    layout = go.Layout(title=title)
+        name='Soil moisture value')
+    trace2 = go.Scatter(x = [df_annotations['DateTime'], df_annotations['DateTime']], y = [0, 104],
+        name='Watering', text=['Watering!'])
+    layout = go.Layout(title=title, yaxis=dict(range=[0, 104]))
     fig = go.Figure(data=[trace1, trace2], layout=layout)
     p = py.plot(fig, filename=title)
     return p
