@@ -6,3 +6,5 @@ pip3 install plotly pyserial numpy pandas
 
 Start waterino.py
 
+
+https://plot.ly/dashboard/jklang:29/present
