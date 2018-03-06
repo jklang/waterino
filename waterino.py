@@ -6,26 +6,6 @@ import requests
 import serial
 import time
 
-import plotly.plotly as py
-
-
-class Plotly:
-    def __init__(self, config):
-        py.sign_in(config['plotly_username'], config['plotly_api_key'])
-        py.plot([
-            {
-                'x': [], 'y': [], 'type': 'scatter',
-                'stream': {
-                    'token': config['plotly_streaming_tokens'][0],
-                    'maxpoints': 20000
-                }
-            }], filename='Current soil moisture value')
-
-    def write_to_streaming_graph(self, config, datetime, moisture):
-        stream = py.Stream(config['plotly_streaming_tokens'][0])
-        stream.open()
-        stream.write({'x': datetime, 'y': moisture})
-
 
 def get_serial_output(ser):
     v = ser.readline().decode()
@@ -67,7 +47,7 @@ def main():
         config = json.load(conf)
 
     ser = serial.Serial(config["serial_device_path"], 9600)
-    p = Plotly(config)
+
     while True:
         moisture_stats_file = './data/moisture.csv'
         water_level_stats_file = './data/water_level.csv'
