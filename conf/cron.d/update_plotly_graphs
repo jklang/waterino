@@ -1,1 +1,1 @@
-*/3 * * * *    pi    /home/pi/waterino/make_graph_from_csv.py
+*/3 * * * *    pi    cd /home/pi/waterino && ./make_graph_from_csv.py
