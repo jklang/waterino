@@ -37,3 +37,4 @@ systemctl enable waterino
 systemctl start waterino
 ```
 
+### Go to http://localhost:3000 and setup the grafana instance
