@@ -47,20 +47,24 @@ def write_to_db(client, measurement, value, host):
             },
             "measurement": measurement,
             "fields": {
-                "moisture_value": value,
+                "soil_moisture_value": value,
             }
         }
     ]
     client.write_points(json_body)
 
 
-def write_annotation_to_db(client, text, title):
+def write_annotation_to_db(client, name, text, title, tags):
     json_body = [
         {
-            "name": "events",
-            "columns": ["tags", "text", "title"],
-            "points": [["waterino", text, title]]
-        }]
+            "measurement": name,
+            "fields": {
+		"title": title,
+                "text": text,
+		"tags": tags
+            }
+        }
+    ]
     client.write_points(json_body)
 
 
@@ -94,7 +98,7 @@ def main():
         if 'Watering' in value:
             annotation = value
             write_to_csv(annotations_file, annotation)
-            write_annotation_to_db(db_client, annotation, 'Watering!')
+            write_annotation_to_db(db_client, 'events', annotation, 'Watering', 'waterino')
             send_notification(config, value)
         # Write graph data.
         if count == 10:
