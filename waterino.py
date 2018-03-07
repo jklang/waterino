@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import datetime
 import json
 import requests
 import serial
@@ -34,11 +33,6 @@ def send_notification(config, message):
         return False
 
 
-def write_to_csv(filename, moisture):
-    with open(filename, 'a') as datafile:
-        datafile.write('{}, {}\n'.format(datetime.datetime.now(), moisture))
-
-
 def write_to_db(client, measurement, value):
     json_body = [
         {
@@ -56,9 +50,9 @@ def write_annotation_to_db(client, name, text, title, tags):
         {
             "measurement": name,
             "fields": {
-		"title": title,
+                "title": title,
                 "text": text,
-		"tags": tags
+                "tags": tags
             }
         }
     ]
@@ -80,9 +74,6 @@ def main():
     ser = serial.Serial(config["serial_device_path"], 9600)
 
     while True:
-        moisture_stats_file = './data/moisture.csv'
-        water_level_stats_file = './data/water_level.csv'
-        annotations_file = './data/annotations.csv'
         value = get_serial_output(ser).strip('\n').strip('\r')
 
         # Separate soil moisture (m) and water level(w) values into two vars:
@@ -94,7 +85,6 @@ def main():
     #        send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
         if 'Watering' in value:
             annotation = value
-            write_to_csv(annotations_file, annotation)
             write_annotation_to_db(db_client, 'events', annotation, 'Watering', 'waterino')
             send_notification(config, value)
         # Write graph data.
