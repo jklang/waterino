@@ -47,10 +47,20 @@ def write_to_db(client, measurement, value, host):
             },
             "measurement": measurement,
             "fields": {
-                "Float_value": value,
+                "moisture_value": value,
             }
         }
     ]
+    client.write_points(json_body)
+
+
+def write_annotation_to_db(client, text, title):
+    json_body = [
+        {
+            "name": "events",
+            "columns": ["tags", "text", "title"],
+            "points": [["waterino", text, title]]
+        }]
     client.write_points(json_body)
 
 
@@ -65,7 +75,7 @@ def main():
     influx_host = 'localhost'
     influx_port = '8086'
     influx_dbname = 'db_grafana'
-    client = InfluxDBClient(host=influx_host, port=influx_port, database=influx_dbname)
+    db_client = InfluxDBClient(host=influx_host, port=influx_port, database=influx_dbname)
     ser = serial.Serial(config["serial_device_path"], 9600)
 
     while True:
@@ -84,11 +94,12 @@ def main():
         if 'Watering' in value:
             annotation = value
             write_to_csv(annotations_file, annotation)
+            write_annotation_to_db(db_client, annotation, 'Watering!')
             send_notification(config, value)
         # Write graph data.
         if count == 10:
-            write_to_db(client, 'soilmoisture', moisture, 'pi')
-            write_to_db(client, 'waterlevel', water_level, 'pi')
+            write_to_db(db_client, 'soilmoisture', moisture, 'pi')
+            write_to_db(db_client, 'waterlevel', water_level, 'pi')
             print(moisture)
             time.sleep(0.25)
             count = 0
