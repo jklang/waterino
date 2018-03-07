@@ -36,7 +36,7 @@ def send_notification(config, message):
 def write_to_db(client, measurement, value):
     json_body = [
         {
-            "measurement": 'waterino',
+            "measurement": measurement,
             "fields": {
                 measurement: value,
             }
