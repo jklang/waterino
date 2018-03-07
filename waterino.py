@@ -39,15 +39,12 @@ def write_to_csv(filename, moisture):
         datafile.write('{}, {}\n'.format(datetime.datetime.now(), moisture))
 
 
-def write_to_db(client, measurement, value, host):
+def write_to_db(client, measurement, value):
     json_body = [
         {
-            "tags": {
-                "host": host,
-            },
-            "measurement": measurement,
+            "measurement": 'waterino',
             "fields": {
-                "soil_moisture_value": value,
+                measurement: value,
             }
         }
     ]
@@ -102,8 +99,8 @@ def main():
             send_notification(config, value)
         # Write graph data.
         if count == 10:
-            write_to_db(db_client, 'soilmoisture', moisture, 'pi')
-            write_to_db(db_client, 'waterlevel', water_level, 'pi')
+            write_to_db(db_client, 'soil_moisture', moisture)
+            write_to_db(db_client, 'water_level', water_level)
             print(moisture)
             time.sleep(0.25)
             count = 0
