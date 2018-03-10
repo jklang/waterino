@@ -77,7 +77,7 @@ void loop() {
   Serial.println(w + water_level);
   Serial.println(m + moisture);
   Serial.println(t + temperature);
-  Serial.println(t + humidity);
+  Serial.println(h + humidity);
 
   if(moisture != old_moisture){
     lcd.setCursor(0, 0);

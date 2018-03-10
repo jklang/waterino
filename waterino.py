@@ -79,6 +79,10 @@ def main():
             moisture = float(value.split(':')[1])
         if 'w:' in value:
             water_level = float(value.split(':')[1])
+        if 't:' in value:
+            temperature = float(value.split(':')[1])
+        if 'h:' in value:
+            humidity = float(value.split(':')[1])
     #   if water_level <= 20:
     #        send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
         if 'Watering' in value:
@@ -89,6 +93,8 @@ def main():
         if count == 10:
             write_to_db(db_client, 'soil_moisture', moisture)
             write_to_db(db_client, 'water_level', water_level)
+            write_to_db(db_client, 'temperature', temperature)
+            write_to_db(db_client, 'humidity', humidity)
             print(moisture)
             print(water_level)
             time.sleep(0.25)
