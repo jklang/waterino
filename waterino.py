@@ -60,8 +60,6 @@ def write_annotation_to_db(client, name, text, title, tags):
 
 
 def main():
-    moisture = 0
-    water_level = 0
     annotation = ""
     count = 0
     config_file = './conf/config.json'
@@ -92,6 +90,7 @@ def main():
             write_to_db(db_client, 'soil_moisture', moisture)
             write_to_db(db_client, 'water_level', water_level)
             print(moisture)
+            print(water_level)
             time.sleep(0.25)
             count = 0
         count += 1
