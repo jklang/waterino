@@ -1,4 +1,3 @@
-
 #include <DHT.h>
 #include <LiquidCrystal.h>
 #include <Ultrasonic.h>
@@ -26,11 +25,13 @@ int moisture = 0;
 int water_level = 0;
 int old_water_level = 0;
 int old_moisture = 0;
+int light_reading = 0; // the analog reading from the sensor divider
 float empty_tank_reading = 32.0; // Distance in CM to the bottom of the watertank
 String m = "m:"; // Soil moisture
 String w = "w:"; // Tank water level
 String t = "t:"; // Air temperature
 String h = "h:"; // Air humidity
+String l = "l:"; // Light
 
 void setup() {
   // set up the LCD's number of columns and rows: 
@@ -67,6 +68,7 @@ int get_water_level_percentage(){
 
 void loop() {
   delay(2000);
+  light_reading = analogRead(light_sensor); 
   moisture = get_moisture_reading(moisture_sensor0);
   // Or if using two sensors:
   // int moisture = get_moisture_reading(moisture_sensor0) + get_moisture_reading(moisture_sensor1) / 2;
@@ -78,6 +80,8 @@ void loop() {
   Serial.println(m + moisture);
   Serial.println(t + temperature);
   Serial.println(h + humidity);
+  Serial.println(l + light_reading);
+
 
   if(moisture != old_moisture){
     lcd.setCursor(0, 0);
@@ -108,7 +112,7 @@ void loop() {
     }
    }  
 
-  if(moisture<20) {
+  if(moisture< 20) {
     run_pump(3000, waterpump_pin0);
     lcd.setCursor(0, 1);
     lcd.print("                  ");

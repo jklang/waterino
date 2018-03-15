@@ -83,6 +83,8 @@ def main():
             temperature = float(value.split(':')[1])
         if 'h:' in value:
             humidity = float(value.split(':')[1])
+        if 'l:' in value:
+            light = float(value.split(':')[1])
     #   if water_level <= 20:
     #        send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
         if 'Watering' in value:
@@ -95,8 +97,11 @@ def main():
             write_to_db(db_client, 'water_level', water_level)
             write_to_db(db_client, 'temperature', temperature)
             write_to_db(db_client, 'humidity', humidity)
+            write_to_db(db_client, 'light', light)
+
             print(moisture)
             print(water_level)
+            print(light)
             time.sleep(0.25)
             count = 0
         count += 1
