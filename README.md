@@ -3,7 +3,7 @@ Plant watering system controlled by Arduino and monitored using RPi, python, Inf
 
 There's support for soil moisture, water tank level, air humidity, temperature and light. If you just want the soil moisture and tank level sensors you can go ahead and skip the other ones. If you don't want fancy graphs at all you can ignore all the Raspberry Pi stuff and just get the Arduino.
 
-## Installation instructions
+## Installation Instructions
 
 ### Hardware
 
@@ -29,7 +29,7 @@ You will need:
 ```
 ### Upload the waterino.ino code to the arduino
 
-### If you don't have a Raspberry Pi and don't want fancy graphs you can stop here ###
+### -- If you don't have a Raspberry Pi and don't want fancy graphs you can stop here -- ###
 #### Install InfluxDB
 ```
 curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
