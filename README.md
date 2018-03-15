@@ -3,7 +3,7 @@ Plant watering system controlled by Arduino and monitored using RPi and python, 
 
 This project depends on a Influxdb database named "db_grafana" running without auth on localhost.
 
-There's support for soil moisture, water tank level, air humidity, temperature and light.
+There's support for soil moisture, water tank level, air humidity, temperature and light. If you just want the soil moisture and tank level sensors you can go ahead and skip the other ones. If you don't want fancy graphs with data from your sensors you can ignore all the Reaspberry pi stuff and just get the Arduino
 
 ## Installation instructions
 
@@ -25,8 +25,13 @@ You will need:
 * Raspberry Pi to run the graphing stuff. It will be connected and be recieving data via the USB port so it should probably be mounted in the same case as the Arduino.
 
 
-### Software
+### Install the Ardiuino libraries in your Arduino IDE
+```
+...
+```
+### Upload the waterino.ino code to the arduino
 
+### If you don't have a Raspberry Pi and don't want fancy graphs you can stop here ###
 #### Install InfluxDB
 ```
 curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
@@ -41,7 +46,7 @@ influx -execute 'CREATE DATABASE db_grafana'
 https://github.com/fg2it/grafana-on-raspberry/wiki
 ```
 
-#### Install Requirements:
+#### Install Python dependencies:
 ```
 pip3 install plotly pyserial numpy pandas
 ```
