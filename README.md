@@ -1,5 +1,5 @@
 # waterino
-Plant watering system controlled by Arduino and monitored using RPi and python, Influxdb and Grafana.
+Plant watering system controlled by Arduino and monitored using RPi, python, Influxdb and Grafana.
 
 This project depends on a Influxdb database named "db_grafana" running without auth on localhost.
 
