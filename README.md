@@ -1,9 +1,7 @@
 # waterino
 Plant watering system controlled by Arduino and monitored using RPi, python, Influxdb and Grafana.
 
-This project depends on a Influxdb database named "db_grafana" running without auth on localhost.
-
-There's support for soil moisture, water tank level, air humidity, temperature and light. If you just want the soil moisture and tank level sensors you can go ahead and skip the other ones. If you don't want fancy graphs with data from your sensors you can ignore all the Reaspberry pi stuff and just get the Arduino
+There's support for soil moisture, water tank level, air humidity, temperature and light. If you just want the soil moisture and tank level sensors you can go ahead and skip the other ones. If you don't want fancy graphs at all you can ignore all the Raspberry Pi stuff and just get the Arduino.
 
 ## Installation instructions
 
