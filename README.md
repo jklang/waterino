@@ -22,6 +22,8 @@ You will need:
 * Cabling, solder iron and heat-shrink tubing
 * A transparent case to fit everything. (Like this one: https://www.clasohlson.com/se/Vattent%C3%A4t-l%C3%A5da-/31-8543)
 * Plastic tubing for the water pump
+* Water container with a large lid (the HC-SR04 should be mounted in the lid pointing down towards the water)
+I used this one: https://www.clasohlson.com/se/Vattendunk-Asaklitt-15-l/31-8268
 
 * Raspberry Pi to run the graphing stuff. It will be connected and be recieving data via the USB port so it should probably be mounted in the same case as the Arduino.
 
