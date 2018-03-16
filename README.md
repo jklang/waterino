@@ -11,14 +11,17 @@ You will need:
 
 * An Arduino board
 * LCD display 16x2 (https://www.kjell.com/se/sortiment/el-verktyg/elektronik/optokomponenter/led-lcd-displayer/luxorparts-lcd-display-2x16-p90215?gclid=CjwKCAjws6jVBRBZEiwAkIfZ2pYGCjAQY531Kf2TBXfbQHMwFdJyUXTJpZKnRxMThNqEpCbQ5l7XsRoCZsQQAvD_BwE)
+* Potentiometer (10k Ohm)
 * Capacitive Soil Moisture Sensor (https://www.tindie.com/products/pinotech/soilwatch-10-soil-moisture-sensor/)
 * Ultrasonic distance sensor (HC-SR04)
 * 12V DC Water pump (AD20P or something similair)
+* A relay (https://www.kjell.com/se/sortiment/el-verktyg/arduino/moduler/luxorparts-relamodul-for-arduino-1x-p87878?gclid=Cj0KCQjw1q3VBRCFARIsAPHJXrHdUDFIutNT2rdv3NUu0lio58kz3xuKkKIGJcMpgYLEV0qKWYK7-8EaAqgREALw_wcB)
 * Humidity and temperature sensor (DHT21 or DHT22)
 * Photo resistor
-* 2x 10K resistors
+* 2x 10K resistor
 * Cabling, solder iron and heat-shrink tubing
 * A transparent case to fit everything. (Like this one: https://www.clasohlson.com/se/Vattent%C3%A4t-l%C3%A5da-/31-8543)
+* Plastic tubing for the water pump
 
 * Raspberry Pi to run the graphing stuff. It will be connected and be recieving data via the USB port so it should probably be mounted in the same case as the Arduino.
 
