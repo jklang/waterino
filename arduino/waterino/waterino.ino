@@ -21,17 +21,21 @@ int light_sensor = 2; // Photoresistor
 int waterpump_pin0 = 10; // Waterpump 
 int waterpump_pin1 = 9; // Waterpump 
 
+// Initialize variables
 int moisture = 0;
 int water_level = 0;
 int old_water_level = 0;
 int old_moisture = 0;
 int light_reading = 0; // the analog reading from the sensor divider
-float empty_tank_reading = 32.0; // Distance in CM to the bottom of the watertank
 String m = "m:"; // Soil moisture
 String w = "w:"; // Tank water level
 String t = "t:"; // Air temperature
 String h = "h:"; // Air humidity
 String l = "l:"; // Light
+
+// Configure according to the size of your water tank
+float empty_tank_reading = 28.0; // Distance in CM to the bottom of the water tank
+float full_tank_reading = 7.0; // Distance in CM to the level of the water when the tank is considered full
 
 void setup() {
   // set up the LCD's number of columns and rows: 
@@ -54,20 +58,22 @@ int run_pump(int duration, int pin){
 
 int get_moisture_reading(int pin){
   int moisture = analogRead(pin);
-  moisture = 104-moisture/10;
+  moisture = moisture/10;
   return moisture;
 }
 
 int get_water_level_percentage(){
   float wl_reading = ultrasonic.distanceRead();
-  float percentage = wl_reading / empty_tank_reading;
+  float wl = empty_tank_reading - wl_reading;
+  float percentage = ((wl_reading - empty_tank_reading) * 100)/(full_tank_reading - empty_tank_reading);
+  //float percentage = wl / empty_tank_reading * 100;
   int p = (int) percentage;
   return p;
 }
 
-
 void loop() {
   delay(2000);
+  // Get sensor readings
   light_reading = analogRead(light_sensor); 
   moisture = get_moisture_reading(moisture_sensor0);
   // Or if using two sensors:
@@ -76,13 +82,14 @@ void loop() {
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
 
+  // Print values from the sensors on the serial port
   Serial.println(w + water_level);
   Serial.println(m + moisture);
   Serial.println(t + temperature);
   Serial.println(h + humidity);
   Serial.println(l + light_reading);
 
-
+  // Print moisture value to LCD
   if(moisture != old_moisture){
     lcd.setCursor(0, 0);
     lcd.print("M:");
@@ -90,15 +97,16 @@ void loop() {
     lcd.print('%');
     old_moisture = moisture;
   }
-
-  // if(water_level != old_water_level){
-    lcd.setCursor(10, 0);
+  // Print water level value to LCD
+  if(water_level != old_water_level){
+    lcd.setCursor(9, 0);
     lcd.print("WL:");
     lcd.print(water_level);
     lcd.print('%');
     old_water_level = water_level;
-  //}
+  }
   
+  // If there's a go received on the serial bus. Trigger manual watering
   if (Serial.available() > 0) {
     String serial_value = Serial.readString();
     if (serial_value == "go") {
@@ -110,25 +118,33 @@ void loop() {
       Serial.println("Manual watering triggered!");
       run_pump(3000, waterpump_pin0);
     }
-   }  
+   }
 
-  if(moisture< 20) {
+  if(moisture == 2000) {
     run_pump(3000, waterpump_pin0);
     lcd.setCursor(0, 1);
     lcd.print("                  ");
     lcd.setCursor(0, 1);
-    lcd.print("Sleeping 5s...");
+    lcd.print("Sleeping 10s...");
     moisture = get_moisture_reading(moisture_sensor0);
     // Or if using two sensors:
     // moisture = get_moisture_reading(moisture_sensor0) + get_moisture_reading(moisture_sensor1) / 2;
     int count = 0;
-    while(count < 10){
+    while(count < 20){
       if(moisture != old_moisture){
-        lcd.clear();
         lcd.setCursor(0, 0);
         lcd.print("M: ");
         lcd.print(moisture);
+        lcd.print('%');
         old_moisture = moisture;
+      if(water_level != old_water_level){
+        lcd.setCursor(9, 0);
+        lcd.print("WL:");
+        lcd.print(water_level);
+        lcd.print('%');
+        old_water_level = water_level;
+      }
+        
       }
       delay(500);
       moisture = get_moisture_reading(moisture_sensor0);
