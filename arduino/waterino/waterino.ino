@@ -105,8 +105,8 @@ void loop() {
   }
   // Print water level value on LCD
   if(water_level != old_water_level){
-    lcd.setCursor(9, 0);
-    lcd.print("WL:");
+    lcd.setCursor(10, 0);
+    lcd.print("W:");
     lcd.print(water_level);
     lcd.print('%');
     old_water_level = water_level;
