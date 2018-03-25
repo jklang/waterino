@@ -24,9 +24,15 @@ int waterpump_pin1 = 9; // Waterpump
 // Initialize variables
 int moisture = 0;
 int water_level = 0;
+float temperature = 0.0;
+float humidity = 0.0;
+int light_reading = 0;
 int old_water_level = 0;
 int old_moisture = 0;
-int light_reading = 0; // the analog reading from the sensor divider
+float old_temperature = 0.0;
+float old_humidity = 0.0;
+int old_light_reading = 0;
+
 String m = "m:"; // Soil moisture
 String w = "w:"; // Tank water level
 String t = "t:"; // Air temperature
@@ -79,8 +85,8 @@ void loop() {
   // Or if using two sensors:
   // int moisture = get_moisture_reading(moisture_sensor0) + get_moisture_reading(moisture_sensor1) / 2;
   water_level = get_water_level_percentage();
-  float humidity = dht.readHumidity();
-  float temperature = dht.readTemperature();
+  humidity = dht.readHumidity();
+  temperature = dht.readTemperature();
 
   // Print values from the sensors on the serial port
   Serial.println(w + water_level);
@@ -89,7 +95,7 @@ void loop() {
   Serial.println(h + humidity);
   Serial.println(l + light_reading);
 
-  // Print moisture value to LCD
+  // Print moisture value on LCD
   if(moisture != old_moisture){
     lcd.setCursor(0, 0);
     lcd.print("M:");
@@ -97,13 +103,32 @@ void loop() {
     lcd.print('%');
     old_moisture = moisture;
   }
-  // Print water level value to LCD
+  // Print water level value on LCD
   if(water_level != old_water_level){
     lcd.setCursor(9, 0);
     lcd.print("WL:");
     lcd.print(water_level);
     lcd.print('%');
     old_water_level = water_level;
+  }
+  // Print humidity on LCD
+  if(humidity != old_humidity){
+    int h = (int) humidity;
+    lcd.setCursor(0, 1);
+    lcd.print("H:");
+    lcd.print(h);
+    lcd.print('%');
+    old_humidity = humidity;
+  }
+  // Print temperature on LCD
+  if(temperature != old_temperature){
+    int t = (int) temperature;
+    lcd.setCursor(10, 1);
+    lcd.print("T:");
+    lcd.print(t);
+    lcd.print((char)223);
+    lcd.print("C");
+    old_temperature = temperature;
   }
   
   // If there's a go received on the serial bus. Trigger manual watering
