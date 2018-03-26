@@ -101,6 +101,8 @@ def main():
 
             print(moisture)
             print(water_level)
+            print(temperature)
+            print(humidity)
             print(light)
             time.sleep(0.25)
             count = 0

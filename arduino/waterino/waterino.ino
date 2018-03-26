@@ -3,7 +3,7 @@
 #include <Ultrasonic.h>
 
 #define DHTPIN 6
-#define DHTTYPE DHT11
+#define DHTTYPE DHT22
 
 // initialize the LCD library with the numbers of the interface pins
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
@@ -105,7 +105,8 @@ void loop() {
   }
   // Print water level value on LCD
   if(water_level != old_water_level){
-    lcd.setCursor(10, 0);
+    lcd.setCursor(10
+      , 0);
     lcd.print("W:");
     lcd.print(water_level);
     lcd.print('%');
