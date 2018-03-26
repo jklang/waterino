@@ -32,6 +32,7 @@ int old_moisture = 0;
 float old_temperature = 0.0;
 float old_humidity = 0.0;
 int old_light_reading = 0;
+int failsafe_count = 0;
 
 String m = "m:"; // Soil moisture
 String w = "w:"; // Tank water level
@@ -64,8 +65,8 @@ int run_pump(int duration, int pin){
 
 int get_moisture_reading(int pin){
   int moisture = analogRead(pin);
-  moisture = moisture/10;
-  return moisture;
+  int p = map(moisture, 0, 602, 0, 100);  // make percent of it ;
+  return p;
 }
 
 int get_water_level_percentage(){
@@ -145,9 +146,21 @@ void loop() {
       run_pump(3000, waterpump_pin0);
     }
    }
-
-  if(moisture == 2000) {
+  // If moisture value is 0 then something is wrong with the sensor. Don't do anything else.
+  if (moisture == 0) {
+    return;
+  }
+  // If pump has run for 15 times in a row something is wrong. Bail out. 
+  if(failsafe_count >= 15) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("FAILURE! RESET!");
+    return;
+  }
+  // If moisture is less than 10% run the pump
+  if(moisture > 10) {
     run_pump(3000, waterpump_pin0);
+    failsafe_count++;
     lcd.setCursor(0, 1);
     lcd.print("                  ");
     lcd.setCursor(0, 1);
@@ -163,6 +176,7 @@ void loop() {
         lcd.print(moisture);
         lcd.print('%');
         old_moisture = moisture;
+      }
       if(water_level != old_water_level){
         lcd.setCursor(9, 0);
         lcd.print("WL:");
@@ -170,14 +184,14 @@ void loop() {
         lcd.print('%');
         old_water_level = water_level;
       }
-        
-      }
       delay(500);
       moisture = get_moisture_reading(moisture_sensor0);
     // Or if using two sensors:
     // moisture = get_moisture_reading(moisture_sensor0) + get_moisture_reading(moisture_sensor1) / 2;
-      count++;
-      
+      count++;  
     }
+  }
+  else {
+    failsafe_count = 0;
   }
 }
