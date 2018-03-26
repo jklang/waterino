@@ -154,6 +154,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("FAILURE! RESET!");
+    Serial.println("FAILURE");
     return;
   }
   // If moisture is less than 10% run the pump

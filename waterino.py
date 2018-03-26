@@ -85,12 +85,13 @@ def main():
             humidity = float(value.split(':')[1])
         if 'l:' in value:
             light = float(value.split(':')[1])
-       if water_level <= 20:
+        if water_level <= 20:
             send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
         if 'Watering' in value:
             annotation = value
             write_annotation_to_db(db_client, 'events', annotation, 'Watering', 'waterino')
-            send_notification(config, value)
+        if 'FAILURE' in value:
+            send_notification(config, 'Something is wrong! Arduino needs hard reset')
         # Write graph data.
         if count == 10:
             write_to_db(db_client, 'soil_moisture', moisture)
