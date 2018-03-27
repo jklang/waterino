@@ -7,7 +7,6 @@ import time
 
 from influxdb import InfluxDBClient
 
-
 def get_serial_output(ser):
     v = ser.readline().decode()
     return v
@@ -60,6 +59,8 @@ def write_annotation_to_db(client, name, text, title, tags):
 
 
 def main():
+    wl_notification_sent = False
+    failure_notification_sent = False
     annotation = ""
     count = 0
     config_file = './conf/config.json'
@@ -86,12 +87,16 @@ def main():
         if 'l:' in value:
             light = float(value.split(':')[1])
         if water_level <= 20:
-            send_notification(config, 'Water level at {} Fill the water tank.'.format(water_level))
+            if not wl_notification_sent:
+                send_notification(config, 'Water level at {}% Fill the water tank.'.format(int(water_level)))
+                wl_notification_sent = True
         if 'Watering' in value:
             annotation = value
             write_annotation_to_db(db_client, 'events', annotation, 'Watering', 'waterino')
         if 'FAILURE' in value:
-            send_notification(config, 'Something is wrong! Arduino needs hard reset')
+            if not failure_notification_sent:
+                send_notification(config, 'Something is wrong! Arduino needs hard reset')
+                failure_notification_sent = True
         # Write graph data.
         if count == 10:
             write_to_db(db_client, 'soil_moisture', moisture)
