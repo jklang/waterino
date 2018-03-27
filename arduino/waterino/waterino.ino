@@ -116,6 +116,7 @@ void loop() {
   if(humidity != old_humidity){
     int h = (int) humidity;
     lcd.setCursor(0, 1);
+    lcd.print("          ");
     lcd.print("H:");
     lcd.print(h);
     lcd.print('%');
@@ -125,6 +126,7 @@ void loop() {
   if(temperature != old_temperature){
     int t = (int) temperature;
     lcd.setCursor(10, 1);
+    lcd.print("          ");
     lcd.print("T:");
     lcd.print(t);
     lcd.print((char)223);
@@ -149,8 +151,8 @@ void loop() {
   if (moisture == 0) {
     return;
   }
-  // If pump has run for 15 times in a row something is wrong. Bail out. 
-  if(failsafe_count >= 15) {
+  // If pump has run for 10 times in a row something is wrong. Bail out. 
+  if(failsafe_count >= 10) {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("FAILURE! RESET!");
@@ -158,18 +160,20 @@ void loop() {
     return;
   }
   // If moisture is less than 10% run the pump
-  if(moisture > 10) {
+  if(moisture < 10) {
     run_pump(3000, waterpump_pin0);
     failsafe_count++;
-    lcd.setCursor(0, 1);
-    lcd.print("                  ");
-    lcd.setCursor(0, 1);
-    lcd.print("Sleeping 10s...");
     moisture = get_moisture_reading(moisture_sensor0);
     // Or if using two sensors:
     // moisture = get_moisture_reading(moisture_sensor0) + get_moisture_reading(moisture_sensor1) / 2;
     int count = 0;
-    while(count < 20){
+    while(count < 10){
+      lcd.setCursor(0, 1);
+      lcd.print("                  ");
+      lcd.setCursor(0, 1);
+      lcd.print("Sleeping ");
+      lcd.print(10-count);
+      lcd.print("s...");
       if(moisture != old_moisture){
         lcd.setCursor(0, 0);
         lcd.print("M: ");
@@ -184,11 +188,11 @@ void loop() {
         lcd.print('%');
         old_water_level = water_level;
       }
-      delay(500);
+      delay(1000);
       moisture = get_moisture_reading(moisture_sensor0);
     // Or if using two sensors:
     // moisture = get_moisture_reading(moisture_sensor0) + get_moisture_reading(moisture_sensor1) / 2;
-      count++;  
+      count++;
     }
   }
   else {
