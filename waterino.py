@@ -88,7 +88,7 @@ def main():
             light = float(value.split(':')[1])
         if water_level <= 20:
             if not wl_notification_sent:
-                send_notification(config, 'Water level at {}% Fill the water tank.'.format(int(water_level)))
+                send_notification(config, 'Water level at {}%! Refill the water tank.'.format(int(water_level)))
                 wl_notification_sent = True
         if 'Watering' in value:
             annotation = value
