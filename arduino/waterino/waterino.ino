@@ -128,7 +128,7 @@ void loop() {
     int t = (int) temperature;
     lcd.setCursor(10, 1);
     lcd.print("          ");
-    lcd.setCursor(0, 1);
+    lcd.setCursor(10, 1);
     lcd.print("T:");
     lcd.print(t);
     lcd.print((char)223);
