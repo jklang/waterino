@@ -14,7 +14,7 @@ You will need:
 * Potentiometer (10k Ohm)
 * Capacitive Soil Moisture Sensor (https://www.tindie.com/products/pinotech/soilwatch-10-soil-moisture-sensor/)
 * Ultrasonic distance sensor (HC-SR04)
-* 12V DC Water pump (AD20P or something similair)
+* 12V DC Water pump (AD20P or something similar)
 * A relay (https://www.kjell.com/se/sortiment/el-verktyg/arduino/moduler/luxorparts-relamodul-for-arduino-1x-p87878?gclid=Cj0KCQjw1q3VBRCFARIsAPHJXrHdUDFIutNT2rdv3NUu0lio58kz3xuKkKIGJcMpgYLEV0qKWYK7-8EaAqgREALw_wcB)
 * Humidity and temperature sensor (DHT21 or DHT22)
 * Photo resistor
