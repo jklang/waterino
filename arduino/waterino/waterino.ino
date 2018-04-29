@@ -65,7 +65,7 @@ int run_pump(int duration, int pin){
 
 int get_moisture_reading(int pin){
   int moisture = analogRead(pin);
-  int p = map(moisture, 0, 602, 0, 100);  // make percent of it ;
+  int p = map(moisture, 0, 675, 0, 100);  // make percent of it ;
   return p;
 }
 
@@ -99,6 +99,8 @@ void loop() {
   // Print moisture value on LCD
   if(moisture != old_moisture){
     lcd.setCursor(0, 0);
+    lcd.print("      ");
+    lcd.setCursor(0, 0);
     lcd.print("M:");
     lcd.print(moisture);
     lcd.print('%');
@@ -106,6 +108,8 @@ void loop() {
   }
   // Print water level value on LCD
   if(water_level != old_water_level){
+    lcd.setCursor(10, 0);
+    lcd.print("      ");
     lcd.setCursor(10, 0);
     lcd.print("W:");
     lcd.print(water_level);
@@ -163,7 +167,7 @@ void loop() {
   }
   // If moisture is less than 10% run the pump
   if(moisture < 10) {
-    run_pump(3000, waterpump_pin0);
+    run_pump(6000, waterpump_pin0);
     failsafe_count++;
     moisture = get_moisture_reading(moisture_sensor0);
     // Or if using two sensors:
